@@ -1,4 +1,3 @@
-
 // ページの読み込みを待つ
 window.addEventListener('load', init);
 
@@ -29,30 +28,31 @@ function init() {
   scene.add(plane2);
 
 
-  var number = 3;
-  var size = 30;
+  var number = 3;     //累乗数
+  var size = 30;      //1つの円の大きさ
 
 　
   const geometry1 = new THREE.Geometry();
   const geometry2 = new THREE.Geometry();
 
-
+  /*円を配置*/
   for(let i=0;i<size;i++){
 
-    const radius = 100;
-    const speed = 360 / size;
+    const radius = 100;                       //半径の大きさ
+    const speed = 360 / size;                 //円の間隔
 
-    //点作成
-    const point = new THREE.Mesh(
+    /*xy平面で作成*/
+    const point1 = new THREE.Mesh(
       new THREE.SphereGeometry(5, 100, 100),
     );
+    /*yz平面で作成*/
     const point2 = new THREE.Mesh(
       new THREE.SphereGeometry(5, 100, 100),
     );
 
     const rad = i * speed * Math.PI / 180;
 
-    point.position.set(
+    point1.position.set(
       radius * Math.sin(rad) ** number,
       radius * Math.cos(rad) ** number,
       0
@@ -64,23 +64,23 @@ function init() {
       radius * Math.sin(rad) ** number,
     );
 
-    geometry1.mergeMesh(point);
+    geometry1.mergeMesh(point1);
     geometry2.mergeMesh(point2);
   }
+
   const material = new THREE.MeshNormalMaterial();
 
   const mesh1 = new THREE.Mesh(geometry1, material);
-  scene.add(mesh1);
+  scene.add(mesh1);                             //xy平面の配置
 
 
   const material2 = new THREE.MeshNormalMaterial();
 
   const mesh2 = new THREE.Mesh(geometry2, material2);
-  scene.add(mesh2);
+  scene.add(mesh2);                             //yz平面の配置
 
   tick();
 
-  // 毎フレーム時に実行されるループイベントです
   function tick() {
     // レンダリング
     renderer.render(scene, camera);
@@ -102,9 +102,3 @@ function init() {
     camera.updateProjectionMatrix();
   }
 }
-
-/*気づいたこと*/
-
-
-//コンパイルしてくれないから、文字の打ち間違いとかに気づかない
-//タイピングのミス1つで真っ黒になる->落ち込む
